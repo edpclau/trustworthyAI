@@ -33,6 +33,9 @@ class ALTrainer(object):
         self.model = model
         self.lr = lr
         self.init_iter = init_iter
+        
+        #NEW: initialize loss history list
+        self.loss_history = []
 
         self.alpha = alpha
         self.beta = beta  # rho_multiply
@@ -66,6 +69,8 @@ class ALTrainer(object):
                 else:
                     break
             logging.info(f'Current        h: {h_new}')
+            
+
 
             if self.early_stopping:
                 if (mse_new / prev_mse > self.early_stopping_thresh
@@ -103,6 +108,11 @@ class ALTrainer(object):
             if _ % LOG_FREQUENCY == 0:
                 logging.info(f'Current loss in step {_}: {loss.detach()}')
 
+        #NEW: append loss to history
+
+        self.loss_history.append(loss)
+        logging.info(f'Current epoch loss: {loss}')
+        
         return curr_mse, curr_h, w_adj
 
 
