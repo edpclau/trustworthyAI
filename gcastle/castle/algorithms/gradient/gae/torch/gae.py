@@ -166,7 +166,7 @@ class GAE(BaseLearner):
         elif x.ndim == 3:
             self.input_dim = x.shape[2]
 
-        w_est = self._gae(x).detach().cpu().numpy()
+        w_est, self.loss_history = self._gae(x).detach().cpu().numpy()
 
         self.weight_causal_matrix = Tensor(w_est,
                                            index=columns,
@@ -207,4 +207,4 @@ class GAE(BaseLearner):
                               update_freq=self.update_freq)
         w_est = w_est / torch.max(abs(w_est))
 
-        return w_est
+        return w_est, trianer.loss_history
