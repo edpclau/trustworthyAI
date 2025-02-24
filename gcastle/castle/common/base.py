@@ -25,6 +25,7 @@ class BaseLearner(metaclass=abc.ABCMeta):
     def __init__(self):
 
         self._causal_matrix = None
+        self.loss_history = None
 
     @abc.abstractmethod
     def learn(self, data, *args, **kwargs):
